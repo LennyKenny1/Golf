@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stonewall Golf Club Score Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Stonewall Golf Club Score Tracker</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Hole</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Scores will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Parse scores from query string
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const scores = urlParams.getAll('score');
+
+        // Display scores in table
+        const tableBody = document.querySelector('tbody');
+        scores.forEach((score, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${score}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>

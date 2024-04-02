@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stonewall Golf Club Score Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .hole-details {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter Your Stonewall Golf Club Scores</h2>
+    <form action="scoretracker.html" method="post" id="scoreForm">
+        <div class="hole-details" id="holeDetails">
+            <!-- Hole details will be inserted here -->
+        </div>
+        <label for="score">Enter Your Score:</label>
+        <input type="number" id="score" name="score" required><br>
+        <input type="submit" value="Next Hole">
+    </form>
+
+    <!-- Script to handle hole progression and display -->
+    <script>
+        // Define the course data
+        const courseData = [
+            { 
+              hole: 1, 
+              par: 4, 
+              handicap: 17,
+              yardage: {
+                black: 383,
+                blue: 354,
+                white: 339,
+                red: 310,
+                "Red (L)": 310,
+                "Gold (L)": 295
+              } 
+            },
+            { 
+              hole: 2, 
+              par: 4,
+              handicap: 13,
+              yardage: {
+                black: 406,
+                blue: 382,
+                white: 359,
+                red: 319,
+                "Red (L)": 319,
+                "Gold (L)": 291
+              }
+            },
+            { 
+              hole: 3, 
+              par: 5,
+              handicap: 11,
+              yardage: {
+                black: 554,
+                blue: 525,
+                white: 504,
+                red: 474,
+                "Red (L)": 474,
+                "Gold (L)": 432
+              }
+            },
+            { 
+              hole: 4, 
+              par: 3,
+              handicap: 3,
+              yardage: {
+                black: 213,
+                blue: 193,
+                white: 182,
+                red: 144,
+                "Red (L)": 144,
+                "Gold (L)": 109
+              }
+            },
+            { 
+              hole: 5, 
+              par: 4,
+              handicap: 7,
+              yardage: {
+                black: 395,
+                blue: 376,
+                white: 361,
+                red: 354,
+                "Red (L)": 354,
+                "Gold (L)": 246
+              }
+            },
+            { 
+              hole: 6, 
+              par: 5,
+              handicap: 1,
+              yardage: {
+                black: 558,
+                blue: 541,
+                white: 496,
+                red: 472,
+                "Red (L)": 472,
+                "Gold (L)": 459
+              }
+            },
+            { 
+              hole: 7, 
+              par: 3,
+              handicap: 15,
+              yardage: {
+                black: 169,
+                blue: 156,
+                white: 142,
+                red: 121,
+                "Red (L)": 121,
+                "Gold (L)": 91
+              }
+            },
+            { 
+              hole: 8, 
+              par: 4,
+              handicap: 5,
+              yardage: {
+                black: 411,
+                blue: 398,
+                white: 372,
+                red: 311,
+                "Red (L)": 311,
+                "Gold (L)": 267
+              }
+            },
+            { 
+              hole: 9, 
+              par: 4,
+              handicap: 9,
+              yardage: {
+                black: 437,
+                blue: 407,
+                white: 389,
+                red: 363,
+                "Red (L)": 363,
+                "Gold (L)": 348
+              }
+            }
+            // Add more holes here
+        ];
+
+        let currentHoleIndex = 0;
+        let scores = [];
+
+        // Function to display hole details
+        function displayHoleDetails() {
+            const hole = courseData[currentHoleIndex];
+            const holeDetailsDiv = document.getElementById("holeDetails");
+            let yardageHtml = "<p>Yardage:</p><ul>";
+            for (let [key, value] of Object.entries(hole.yardage)) {
+                yardageHtml += "<li>" + key.toUpperCase() + ": " + value + "</li>";
+            }
+            yardageHtml += "</ul>";
+
+            holeDetailsDiv.innerHTML = "<h3>Hole " + hole.hole + "</h3>" +
+                "<p>Par: " + hole.par + "</p>" +
+                "<p>Handicap: " + hole.handicap + "</p>" + yardageHtml;
+        }
+
+        // Display details for the first hole
+        displayHoleDetails();
+
+        // Handle form submission
+        document.getElementById("scoreForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get score
+            const score = parseInt(document.getElementById("score").value);
+
+            // Store score
+            scores.push(score);
+
+            // Move to the next hole or end if all holes are done
+            currentHoleIndex++;
+            if (currentHoleIndex < courseData.length) {
+                displayHoleDetails();
+            } else {
+                // Redirect to score tracker page with scores data
+                const form = document.getElementById("scoreForm");
+                form.action = "scoretracker.html";
+                form.method = "get";
+                // Append scores to URL query string
+                scores.forEach(score => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'score';
+                    input.value = score;
+                    form.appendChild(input);
+                });
+                form.submit();
+            }
+        });
+    </script>
+</body>
+</html>
