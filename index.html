@@ -3,38 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stonewall Golf Club Score Input</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            box-sizing: border-box;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Login</title>
 </head>
 <body>
     <h2>Login</h2>
@@ -47,27 +16,24 @@
     </form>
 
     <script>
-        // User credentials (demo)
-        const users = [
-            { username: 'user1', password: 'password1' },
-            { username: 'user2', password: 'password2' },
-            // Add more users as needed
+        // Define user logins
+        const userLogins = [
+            { username: 'user1', password: 'user1password' },
+            { username: 'user2', password: 'user2password' }
         ];
 
         // Function to handle login
         document.getElementById("loginForm").addEventListener("submit", function(event) {
             event.preventDefault();
             
-            // Get username and password
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+            const usernameInput = document.getElementById("username").value;
+            const passwordInput = document.getElementById("password").value;
 
-            // Find user in the list of users
-            const user = users.find(user => user.username === username && user.password === password);
+            // Find user in the user logins
+            const user = userLogins.find(user => user.username === usernameInput && user.password === passwordInput);
 
             if (user) {
-                // Store logged-in user in local storage
-                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                alert('Login successful!');
                 // Redirect to score input page
                 window.location.href = 'scoreinput.html';
             } else {
