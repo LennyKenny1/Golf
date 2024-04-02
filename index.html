@@ -7,39 +7,12 @@
 </head>
 <body>
     <h2>Login</h2>
-    <form id="loginForm">
+    <form id="loginForm" action="scoreinput.html" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br>
         <input type="submit" value="Login">
     </form>
-
-    <script>
-        // Define user logins
-        const userLogins = [
-            { username: 'user1', password: 'user1password' },
-            { username: 'user2', password: 'user2password' }
-        ];
-
-        // Function to handle login
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent form submission
-            
-            const usernameInput = document.getElementById("username").value;
-            const passwordInput = document.getElementById("password").value;
-
-            // Find user in the user logins
-            const user = userLogins.find(user => user.username === usernameInput && user.password === passwordInput);
-
-            if (user) {
-                alert('Login successful!');
-                // Redirect to score input page
-                window.location.replace('scoreinput.html');
-            } else {
-                alert('Invalid username or password');
-            }
-        });
-    </script>
 </body>
 </html>
