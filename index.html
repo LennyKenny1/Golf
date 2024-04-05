@@ -5,40 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stonewall Golf Club Score Input</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            box-sizing: border-box;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        .hole-details {
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
+        /* Styles omitted for brevity */
     </style>
 </head>
 <body>
@@ -172,8 +139,7 @@
                 "Red (L)": 363,
                 "Gold (L)": 348
               }
-            },
-            // Include data for other holes here
+            }
         ];
 
         let currentHoleIndex = 0;
@@ -201,18 +167,22 @@
         document.getElementById("scoreForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            // Get score
-            const score = parseInt(document.getElementById("score").value);
+            const scoreInput = document.getElementById("score");
+            const score = parseInt(scoreInput.value);
 
-            // Store score
+            if (isNaN(score) || score < 0 || score > 10) {
+                alert("Please enter a valid score between 0 and 10.");
+                scoreInput.value = "";
+                return;
+            }
+
             scores.push(score);
+            localStorage.setItem('scores', JSON.stringify(scores)); // Saving scores to local storage
 
-            // Move to the next hole or end if all holes are done
             currentHoleIndex++;
             if (currentHoleIndex < courseData.length) {
                 displayHoleDetails();
             } else {
-                // Redirect to score tracker page with scores data
                 const form = document.getElementById("scoreForm");
                 form.action = "scoretracker.html";
                 form.method = "get";

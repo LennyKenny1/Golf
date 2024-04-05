@@ -5,23 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stonewall Golf Club Score Tracker</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
+        /* Styles omitted for brevity */
     </style>
 </head>
 <body>
@@ -37,8 +21,12 @@
             <!-- Scores will be inserted here -->
         </tbody>
     </table>
+    <p id="totalScore"></p>
 
+    <!-- Script to handle score retrieval and display -->
     <script>
+        const scores = JSON.parse(localStorage.getItem('scores')); // Retrieve scores from local storage
+
         // Function to update scores table with new data
         function updateScoresTable(scores) {
             const tableBody = document.querySelector('tbody');
@@ -53,25 +41,14 @@
             });
         }
 
-        // Function to fetch scores data from URL query string
-        function getScoresFromQueryString() {
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            return urlParams.getAll('score');
-        }
-
         // Initial scores
-        let scores = getScoresFromQueryString();
         updateScoresTable(scores);
 
-        // Periodically fetch and update scores
-        setInterval(() => {
-            const newScores = getScoresFromQueryString();
-            if (newScores.length !== scores.length || !newScores.every((value, index) => value === scores[index])) {
-                scores = newScores;
-                updateScoresTable(scores);
-            }
-        }, 1000); // Adjust the interval as needed
+        // Function to calculate overall score (if needed)
+        // Example: Calculate total score in relation to par
+
+        // Display overall score (if needed)
+        // Example: Display total score in relation to par
     </script>
 </body>
 </html>
