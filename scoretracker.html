@@ -26,7 +26,7 @@
 </head>
 <body>
     <h2>Stonewall Golf Club Score Tracker</h2>
-    <table id="scoresTable">
+    <table>
         <thead>
             <tr>
                 <th>Hole</th>
@@ -39,39 +39,21 @@
     </table>
 
     <script>
-        // Function to update scores table with new data
-        function updateScoresTable(scores) {
-            const tableBody = document.querySelector('tbody');
-            tableBody.innerHTML = '';
-            scores.forEach((score, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${score}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
+        // Parse scores from query string
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const scores = urlParams.getAll('score');
 
-        // Function to fetch scores data from URL query string
-        function getScoresFromQueryString() {
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            return urlParams.getAll('score');
-        }
-
-        // Initial scores
-        let scores = getScoresFromQueryString();
-        updateScoresTable(scores);
-
-        // Periodically fetch and update scores
-        setInterval(() => {
-            const newScores = getScoresFromQueryString();
-            if (newScores.length !== scores.length || !newScores.every((value, index) => value === scores[index])) {
-                scores = newScores;
-                updateScoresTable(scores);
-            }
-        }, 1000); // Adjust the interval as needed
+        // Display scores in table
+        const tableBody = document.querySelector('tbody');
+        scores.forEach((score, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${score}</td>
+            `;
+            tableBody.appendChild(row);
+        });
     </script>
 </body>
 </html>
